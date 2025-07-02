@@ -24,7 +24,7 @@ const Dashboard = () => {
             const token = localStorage.getItem("token");
             if (!token) return;
             try {
-                const res = await axios.get("http://localhost:5003/api/docs", {
+                const res = await axios.get("https://docu-sign-backend.onrender.com/api/docs", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setDocs(res.data);
@@ -51,7 +51,7 @@ const Dashboard = () => {
         }
         try {
             const res = await axios.post(
-                "http://localhost:5003/api/docs/upload",
+                "https://docu-sign-backend.onrender.com/api/docs/upload",
                 formData,
                 {
                     headers: {
@@ -73,10 +73,10 @@ const Dashboard = () => {
     // Fetch signatures when previewing a document
     const handlePreview = async (doc) => {
         setPdfError("");
-        setPreviewUrl(`http://localhost:5003/uploads/${doc.filename}`);
+        setPreviewUrl(`https://docu-sign-backend.onrender.com/uploads/${doc.filename}`);
         setCurrentDoc(doc);
         try {
-            const res = await axios.get(`http://localhost:5003/api/signatures/by-file/${doc._id}`);
+            const res = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${doc._id}`);
             if (Array.isArray(res.data)) {
                 setSignatures(res.data);
             } else if (Array.isArray(res.data.signatures)) {
@@ -112,14 +112,14 @@ const Dashboard = () => {
         }
 
         try {
-            await axios.post("http://localhost:5003/api/signatures/positions", {
+            await axios.post("https://docu-sign-backend.onrender.com/api/signatures/positions", {
                 fileId: currentDoc._id,
                 positions: [
                     { x: pdfX, y: pdfY, signer }
                 ]
             });
             setMessage("Signature field placed!");
-            const sigRes = await axios.get(`http://localhost:5003/api/signatures/by-file/${currentDoc._id}`);
+            const sigRes = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${currentDoc._id}`);
             if (Array.isArray(sigRes.data)) {
                 setSignatures(sigRes.data);
             } else if (Array.isArray(sigRes.data.signatures)) {
@@ -141,12 +141,12 @@ const Dashboard = () => {
             if (!rejectionReason) return;
         }
         try {
-            await axios.put(`http://localhost:5003/api/signatures/status/${signatureId}`, {
+            await axios.put(`https://docu-sign-backend.onrender.com/api/signatures/status/${signatureId}`, {
                 status,
                 rejectionReason,
             });
             // Refresh signatures after update
-            const sigRes = await axios.get(`http://localhost:5003/api/signatures/by-file/${currentDoc._id}`);
+            const sigRes = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${currentDoc._id}`);
             if (Array.isArray(sigRes.data)) {
                 setSignatures(sigRes.data);
             } else if (Array.isArray(sigRes.data.signatures)) {
@@ -236,7 +236,7 @@ const Dashboard = () => {
                                         Preview
                                     </button>
                                     <a
-                                        href={`http://localhost:5003/uploads/${doc.filename}`}
+                                        href={`https://docu-sign-backend.onrender.com/uploads/${doc.filename}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-700"

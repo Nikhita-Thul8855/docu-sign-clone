@@ -14,7 +14,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5003/api/auth/register", formData); // <-- FULL URL
+      await axios.post("https://docu-sign-backend.onrender.com/api/auth/register", formData); // <-- FULL URL
       setMessage("Registered successfully! Please login.");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {

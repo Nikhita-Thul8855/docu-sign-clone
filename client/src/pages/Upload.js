@@ -28,7 +28,7 @@ const Upload = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:5003/api/docs/upload",
+                "https://docu-sign-backend.onrender.com/api/docs/upload",
                 formData,
                 {
                     headers: {

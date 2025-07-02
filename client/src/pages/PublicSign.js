@@ -10,7 +10,7 @@ const PublicSign = () => {
     useEffect(() => {
         const fetchDoc = async () => {
             try {
-                const res = await axios.get(`http://localhost:5003/api/signatures/public/${token}`);
+                const res = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/public/${token}`);
                 setDoc(res.data.doc);
             } catch (err) {
                 setError("Invalid or expired link.");
@@ -28,7 +28,7 @@ const PublicSign = () => {
             <div className="bg-white p-4 rounded shadow max-w-xl w-full">
                 <p className="mb-2 font-semibold">Document: {doc.filename}</p>
                 <a
-                    href={`http://localhost:5003/uploads/${doc.filename}`}
+                    href={`https://docu-sign-backend.onrender.com/uploads/${doc.filename}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 underline"

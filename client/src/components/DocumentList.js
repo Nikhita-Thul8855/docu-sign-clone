@@ -22,7 +22,7 @@ const DocumentList = ({ docs, signatures, filter, handlePreview }) => (
                             Preview
                         </button>
                         <a
-                            href={`http://localhost:5003/uploads/${doc.filename}`}
+                            href={`https://docu-sign-backend.onrender.com/uploads/${doc.filename}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-700"
