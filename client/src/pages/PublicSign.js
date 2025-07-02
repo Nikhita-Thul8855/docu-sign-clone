@@ -10,7 +10,7 @@ const PublicSign = () => {
     useEffect(() => {
         const fetchDoc = async () => {
             try {
-                const res = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/public/${token}`);
+                const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/public/${token}`);
                 setDoc(res.data.doc);
             } catch (err) {
                 setError("Invalid or expired link.");

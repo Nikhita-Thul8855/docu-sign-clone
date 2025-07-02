@@ -14,7 +14,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://docu-sign-backend.onrender.com/api/auth/login", loginData); // <-- FULL URL
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, loginData); // <-- FULL URL
       localStorage.setItem("token", res.data.token);
       setMessage("Login successful! Redirecting...");
       setTimeout(() => navigate("/dashboard"), 1000);

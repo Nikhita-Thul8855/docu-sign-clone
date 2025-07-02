@@ -24,7 +24,7 @@ const Dashboard = () => {
             const token = localStorage.getItem("token");
             if (!token) return;
             try {
-                const res = await axios.get("https://docu-sign-backend.onrender.com/api/docs", {
+                const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/docs`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setDocs(res.data);
@@ -51,7 +51,7 @@ const Dashboard = () => {
         }
         try {
             const res = await axios.post(
-                "https://docu-sign-backend.onrender.com/api/docs/upload",
+                `${process.env.REACT_APP_API_BASE_URL}/api/docs/upload`,
                 formData,
                 {
                     headers: {
@@ -76,7 +76,7 @@ const Dashboard = () => {
         setPreviewUrl(`https://docu-sign-backend.onrender.com/uploads/${doc.filename}`);
         setCurrentDoc(doc);
         try {
-            const res = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${doc._id}`);
+            const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/by-file/${doc._id}`);
             if (Array.isArray(res.data)) {
                 setSignatures(res.data);
             } else if (Array.isArray(res.data.signatures)) {
@@ -112,14 +112,14 @@ const Dashboard = () => {
         }
 
         try {
-            await axios.post("https://docu-sign-backend.onrender.com/api/signatures/positions", {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/positions`, {
                 fileId: currentDoc._id,
                 positions: [
                     { x: pdfX, y: pdfY, signer }
                 ]
             });
             setMessage("Signature field placed!");
-            const sigRes = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${currentDoc._id}`);
+            const sigRes = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/by-file/${currentDoc._id}`);
             if (Array.isArray(sigRes.data)) {
                 setSignatures(sigRes.data);
             } else if (Array.isArray(sigRes.data.signatures)) {
@@ -141,12 +141,12 @@ const Dashboard = () => {
             if (!rejectionReason) return;
         }
         try {
-            await axios.put(`https://docu-sign-backend.onrender.com/api/signatures/status/${signatureId}`, {
+            await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/status/${signatureId}`, {
                 status,
                 rejectionReason,
             });
             // Refresh signatures after update
-            const sigRes = await axios.get(`https://docu-sign-backend.onrender.com/api/signatures/by-file/${currentDoc._id}`);
+            const sigRes = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/signatures/by-file/${currentDoc._id}`);
             if (Array.isArray(sigRes.data)) {
                 setSignatures(sigRes.data);
             } else if (Array.isArray(sigRes.data.signatures)) {
