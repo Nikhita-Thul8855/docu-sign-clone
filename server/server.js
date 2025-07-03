@@ -25,18 +25,23 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS for static file serving (PDF downloads)
+// Custom CORS middleware for static file serving (PDF downloads)
 app.use(
   "/uploads",
-  cors({
-    origin: [
+  (req, res, next) => {
+    const allowedOrigins = [
       "http://localhost:3000",
       "https://docu-sign-clone.vercel.app"
-    ],
-    credentials: true,
-    methods: ["GET"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  }),
+    ];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      res.header("Access-Control-Allow-Origin", origin);
+    }
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+  },
   express.static(path.join(__dirname, "uploads"))
 );
 
