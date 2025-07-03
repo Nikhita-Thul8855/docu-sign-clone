@@ -11,9 +11,11 @@ const signatureRoutes = require('./routes/signature'); // Make sure this matches
 const app = express();
 const PORT = process.env.PORT || 5003;
 
+// Main CORS for API routes
 app.use(cors({
-  origin: ["http://localhost:3000",
-    "https://docu-sign-clone.vercel.app",
+  origin: [
+    "http://localhost:3000",
+    "https://docu-sign-clone.vercel.app"
   ],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -23,7 +25,21 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// CORS for static file serving (PDF downloads)
+app.use(
+  "/uploads",
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://docu-sign-clone.vercel.app"
+    ],
+    credentials: true,
+    methods: ["GET"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }),
+  express.static(path.join(__dirname, "uploads"))
+);
+
 app.use(express.static(path.join(__dirname, "../client/public")));
 
 app.use("/api/auth", authRoutes);
